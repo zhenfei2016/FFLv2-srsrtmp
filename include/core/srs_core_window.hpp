@@ -26,11 +26,11 @@
 //typedef unsigned short u_int16_t;
 //typedef u_int16_t uint16_t;
 //typedef short int16_t;
-typedef int64_t ssize_t;
-struct iovec {
-	void  *iov_base;    /* Starting address */
-	size_t iov_len;     /* Number of bytes to transfer */
-};
+//typedef int64_t ssize_t;
+//struct iovec {
+//    void  *iov_base;    /* Starting address */
+//    size_t iov_len;     /* Number of bytes to transfer */
+//};
 
 // for pid.
 typedef int pid_t;
@@ -47,13 +47,13 @@ int gettimeofday(struct timeval* tv, struct timezone* tz);
 //typedef int socklen_t;
 //const char *inet_ntop(int af, const void *src, char *dst, socklen_t size);
 
-//#if WIN32
+#if WIN32
 // for mkdir().
 #include<direct.h>
 
 //#else
 // for mkdir().
-#include<direct.h>
+//#include<direct.h>
 
 // for open().
 typedef int mode_t;
@@ -74,7 +74,7 @@ typedef int mode_t;
 //#define lseek _lseek
 //#define write _write
 //#define read _read
-//#endif
+#endif
 
 // for socket.
 ssize_t writev(int fd, const struct iovec *iov, int iovcnt);

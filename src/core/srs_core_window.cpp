@@ -104,7 +104,7 @@ ssize_t writev(int fd, const struct iovec *iov, int iovcnt)
 
 //#define __restrict // ****
 
-static size_t strlcpy(char * __restrict dst, const char * __restrict src, size_t siz)
+ size_t strlcpy(char * __restrict dst, const char * __restrict src, size_t siz)
 {
     char *d = dst;
     const char *s = src;

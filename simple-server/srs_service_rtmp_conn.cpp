@@ -128,7 +128,7 @@ int SrsBasicRtmpClient::do_connect_app(string local_ip, bool debug)
     data->set("srs_primary", SrsAmf0Any::str(RTMP_SIG_SRS_PRIMARY));
     data->set("srs_authors", SrsAmf0Any::str(RTMP_SIG_SRS_AUTHROS));
     // for edge to directly get the id of client.
-    data->set("srs_pid", SrsAmf0Any::number(getpid()));
+    //data->set("srs_pid", SrsAmf0Any::number(getpid()));
     data->set("srs_id", SrsAmf0Any::number(_srs_context->get_id()));
     
     // local ip of edge

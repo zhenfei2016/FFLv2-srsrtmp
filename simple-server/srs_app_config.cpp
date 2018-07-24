@@ -29,7 +29,10 @@
 #include <errno.h>
 #include <string.h>
 //// file operations.
-//#include <unistd.h>
+#ifdef WIN32
+#else
+#include <unistd.h>
+#endif
 //#include <sys/types.h>
 //#include <sys/stat.h>
 //#include <fcntl.h>

@@ -26,12 +26,17 @@
 //typedef unsigned short u_int16_t;
 //typedef u_int16_t uint16_t;
 //typedef short int16_t;
-//typedef int64_t ssize_t;
-//struct iovec {
-//    void  *iov_base;    /* Starting address */
-//    size_t iov_len;     /* Number of bytes to transfer */
-//};
 
+#if WIN32
+typedef int64_t ssize_t;
+struct iovec {
+    void  *iov_base;    /* Starting address */
+    size_t iov_len;     /* Number of bytes to transfer */
+};
+
+#else
+
+#endif
 // for pid.
 typedef int pid_t;
 pid_t getpid(void);
@@ -77,7 +82,7 @@ typedef int mode_t;
 #endif
 
 // for socket.
-ssize_t writev(int fd, const struct iovec *iov, int iovcnt);
+//ssize_t writev(int fd, const struct iovec *iov, int iovcnt);
 //typedef int64_t useconds_t;
 //int usleep(useconds_t usec);
 int usleep(int64_t usec);

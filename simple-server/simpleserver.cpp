@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <FFL.h>
 #include <net/base/FFL_Net.h>
+#include <net/FFL_NetServer.hpp>
 
 #include "srs_app_config.hpp"
 #include "srs_kernel_log.hpp"
@@ -36,6 +37,15 @@ int main()
 	_srs_config = new SrsConfig();
 	
 	FFL_socketInit();
+
+
+
+	char buf[1024] = {};
+	FFL_socketLocalAddr(buf, 1023);
+
+//	FFL::TcpServer server(NULL, SRS_CONSTS_RTMP_DEFAULT_PORT);
+//	server.setConnectManager(&mgr);
+//	server.start();
 
 	NetFD fd_server=-1;
 	FFL_socketAnyAddrTcpServer(SRS_CONSTS_RTMP_DEFAULT_PORT,&fd_server);

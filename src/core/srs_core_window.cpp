@@ -49,25 +49,25 @@ int usleep(int64_t usec)
     FFL_sleep((int32_t)(usec / 1000));
     return 0;
 }
-
-ssize_t writev(int fd, const struct iovec *iov, int iovcnt)
-{
-    ssize_t nwrite = 0;
-    for (int i = 0; i < iovcnt; i++) {
-        const struct iovec* current = iov + i;
-        
-        int nsent = ::send(fd, (char*)current->iov_base, current->iov_len, 0);
-        if (nsent < 0) {
-            return nsent;
-        }
-        
-        nwrite += nsent;
-        if (nsent == 0) {
-            return nwrite;
-        }
-    }
-    return nwrite;
-}
+//
+//ssize_t writev(int fd, const struct iovec *iov, int iovcnt)
+//{
+//    ssize_t nwrite = 0;
+//    for (int i = 0; i < iovcnt; i++) {
+//        const struct iovec* current = iov + i;
+//        
+//        int nsent = ::send(fd, (char*)current->iov_base, current->iov_len, 0);
+//        if (nsent < 0) {
+//            return nsent;
+//        }
+//        
+//        nwrite += nsent;
+//        if (nsent == 0) {
+//            return nwrite;
+//        }
+//    }
+//    return nwrite;
+//}
 
 ////////////////////////   strlcpy.c (modified) //////////////////////////
 

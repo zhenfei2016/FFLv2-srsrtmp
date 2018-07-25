@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <FFL.h>
 #include <net/base/FFL_Net.h>
+#include <net/FFL_NetConnect.hpp>
 #include <net/FFL_NetServer.hpp>
+#include <net/FFL_NetConnectManager.hpp>
 
 #include "srs_app_config.hpp"
 #include "srs_kernel_log.hpp"
@@ -27,56 +29,52 @@ public:
 	{
 
 	}
-
 };
+
+//
+//  一个rtmp连接
+//
+class RtmpConn : public FFL::NetConnect {
+public:
+	RtmpConn(NetFD fd,FFL::NetServer* srv) : FFL::NetConnect(fd){
+	}
+
+	virtual ~RtmpConn() {
+	}
+	virtual status_t onStart() {
+		char ipBuf[128] = {};
+		FFL_socketLocalAddr(ipBuf, 100);
+		const char* ip = "127.0.0.1";
+		mConn = new SrsRtmpConn(0, new MySourceHandler(), getFd(), ip);
+		mConn->start();
+		return FFL_OK;
+	}	
+	virtual void onStop() {
+		
+	}
+
+	SrsRtmpConn* mConn;
+};
+
 int main()
 {
 	FFL_LogSetLevel(FFL_LOG_LEVEL_ALL);
 	_srs_log = new ISrsLog();
 	_srs_context = new ISrsThreadContext();
 	_srs_config = new SrsConfig();
-	
-	FFL_socketInit();
 
+	//
+	//  启动服务
+	//
+	FFL::SimpleConnectManager<RtmpConn> mgr;
+	FFL::TcpServer server(NULL, SRS_CONSTS_RTMP_DEFAULT_PORT);
+	server.setConnectManager(&mgr);
+	server.start();
 
-
-	char buf[1024] = {};
-	FFL_socketLocalAddr(buf, 1023);
-
-//	FFL::TcpServer server(NULL, SRS_CONSTS_RTMP_DEFAULT_PORT);
-//	server.setConnectManager(&mgr);
-//	server.start();
-
-	NetFD fd_server=-1;
-	FFL_socketAnyAddrTcpServer(SRS_CONSTS_RTMP_DEFAULT_PORT,&fd_server);
-	if (fd_server == -1)
-	{
-		printf("create serve fail.\n");
-		return 0;
-
-	}
-	
 	while (1) {
-		
-		std::string ip;
-		int fd_client;
-		FFL_socketAccept(fd_server, &fd_client);
-
-		if (fd_client > 0) {
-
-			char sz_ip[128] = {};
-			FFL_socketLocalAddr(sz_ip,100);
-			ip = sz_ip;
-			ip = "127.0.0.1";
-			SrsRtmpConn* conn = new SrsRtmpConn(0, new MySourceHandler(), fd_client, ip);
-			conn->start();
-		}
-
-
 		FFL_sleep(1000);
 	}
 
-	FFL_socketUninit();
 	return 0;
 
 }

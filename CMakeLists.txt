@@ -239,6 +239,10 @@ ADD_SRC_FILE(simpleserver.cpp)
 ADD_SRC_FILE(srs_app_reload.hpp)
 ADD_SRC_FILE(srs_app_reload.cpp)
 
+#  Êä³öÂ·¾¶ bin
+SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
+
 ADD_EXECUTABLE(rtmp_server ${LOCAL_SRC_FILES})
 TARGET_LINK_LIBRARIES(rtmp_server rtmp FFL )
 
+#ADD_SUBDIRECTORY(example)
